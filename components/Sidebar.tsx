@@ -44,7 +44,7 @@ const Sidebar = () => {
               </p>
               <div className="pr-4">
                 <GoogleLogin
-                  clientId=""
+                  clientId={process.env.NEXT_PUBLIC_GOOGLE_API_TOKEN}
                   render={(renderProps) => (
                     <button
                       className="bg-white text-lg text-[#F51997] border-[1px] border-[#F51997] font-semibold px-6 py-3 rounded-md outlint-none w-full mt-3 hover:text-white hover:bg-[#F51997] cursor-pointer"
