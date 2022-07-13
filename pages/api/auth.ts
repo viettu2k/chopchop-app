@@ -5,7 +5,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  res.status(200).json({ name: "Response successful" });
   if (req.method === "POST") {
     const user = req.body;
 
