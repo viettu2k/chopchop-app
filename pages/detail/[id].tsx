@@ -43,13 +43,16 @@ const Detail = ({ postDetails }: IProps) => {
 
   const handleLike = async (like: boolean) => {
     if (userProfile) {
-      const repsonse = await axios.put(`${BASE_URL}/api/like`, {
+      const { data } = await axios.put(`${BASE_URL}/api/like`, {
         userId: userProfile._id,
         postId: post._id,
         like,
       });
+
+      setPost({ ...post, likes: data.likes });
     }
   };
+
   const handleDisLike = async () => {};
 
   if (!post) return null;
@@ -132,8 +135,10 @@ const Detail = ({ postDetails }: IProps) => {
           <div className="mt-10 px-10">
             {userProfile && (
               <LikeButton
-                handleLike={() => handleLike(false)}
-                handleDisLike={() => handleLike(false)}
+                likes={post.likes}
+                flex="flex"
+                handleLike={() => handleLike(true)}
+                handleDislike={() => handleLike(false)}
               />
             )}
           </div>
