@@ -18,7 +18,7 @@ interface IProps {
 
 const Profile = ({ data }: IProps) => {
   const [showUserVideos, setShowUserVideos] = useState(true);
-  const [videosList, setVideosList] = useState([]);
+  const [videosList, setVideosList] = useState<any>();
   const { user, userVideos, userLikedVideos } = data;
   const videos = showUserVideos ? "border-b-2 border-black" : "text-gray-400";
   const liked = !showUserVideos ? "border-b-2 border-black" : "text-gray-400";
@@ -72,7 +72,7 @@ const Profile = ({ data }: IProps) => {
         </div>
 
         <div className="flex gap-6 flex-wrap md:justify-start">
-          {videosList.length > 0 ? (
+          {videosList && videosList.length > 0 ? (
             videosList.map((post: Video, index: number) => (
               <VideoCard key={index} post={post} />
             ))
