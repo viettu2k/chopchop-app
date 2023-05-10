@@ -1,30 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import Link from "next/link";
-import { GoVerified } from "react-icons/go";
-import { MdOutlineCancel } from "react-icons/md";
-import { BsFillPlayFill } from "react-icons/bs";
-import { HiVolumeUp, HiVolumeOff } from "react-icons/hi";
-import axios from "axios";
-import { BASE_URL } from "../../utils";
-import { Video } from "../../types";
-import useAuthStore from "../../store/authStore";
-import LikeButton from "../../components/LikeButton";
-import Comments from "../../components/Comments";
+import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import Link from 'next/link';
+import { GoVerified } from 'react-icons/go';
+import { MdOutlineCancel } from 'react-icons/md';
+import { BsFillPlayFill } from 'react-icons/bs';
+import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
+import axios from 'axios';
 
-interface IProps {
-  postDetails: Video;
-}
+import { BASE_URL } from '../../utils';
+import { Video } from '../../types';
+import useAuthStore from '../../store/authStore';
+import LikeButton from '../../components/LikeButton';
+import Comments from '../../components/Comments';
 
-const Detail = ({ postDetails }: IProps) => {
+const Detail = ({ postDetails }: { postDetails: Video }) => {
   const [post, setPost] = useState(postDetails);
   const [playing, setPlaying] = useState(false);
   const [isVideoMuted, setIsVideoMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const router = useRouter();
   const { userProfile }: any = useAuthStore();
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const [isPostingComment, setIsPostingComment] = useState(false);
 
   const onVideoClick = () => {
@@ -38,9 +35,7 @@ const Detail = ({ postDetails }: IProps) => {
   };
 
   useEffect(() => {
-    if (videoRef?.current) {
-      videoRef.current.muted = isVideoMuted;
-    }
+    if (videoRef?.current) videoRef.current.muted = isVideoMuted;
   }, [post, isVideoMuted]);
 
   const handleLike = async (like: boolean) => {
@@ -66,7 +61,7 @@ const Detail = ({ postDetails }: IProps) => {
       });
 
       setPost({ ...post, comments: data.comments });
-      setComment("");
+      setComment('');
       setIsPostingComment(false);
     }
   };
@@ -74,85 +69,83 @@ const Detail = ({ postDetails }: IProps) => {
   if (!post) return null;
 
   return (
-    <div className="flex w-full absolute left-0 top-0 bg-white flex-warp lg:flex-nowrap">
-      <div className="relative flex-2 w-[1080px] lg:w-9/12 flex justify-center items-center bg-blurred-img bg-no-repeat bg-cover bg-center">
-        <div className="absolute top-6 left-2 lg:left-6 flex gap-6 z-50">
-          <p className="cursor-pointer" onClick={() => router.back()}>
-            <MdOutlineCancel className="text-white text-[35px]" />
+    <div className='flex w-full absolute left-0 top-0 bg-white flex-warp lg:flex-nowrap'>
+      <div className='relative flex-2 w-[1080px] lg:w-9/12 flex justify-center items-center bg-blurred-img bg-no-repeat bg-cover bg-center'>
+        <div className='absolute top-6 left-2 lg:left-6 flex gap-6 z-50'>
+          <p className='cursor-pointer' onClick={() => router.back()}>
+            <MdOutlineCancel className='text-white text-[35px]' />
           </p>
         </div>
-        <div className="relative">
-          <div className="lg:h-[100vh] h-[60vh]" onClick={onVideoClick}>
+        <div className='relative'>
+          <div className='lg:h-[100vh] h-[60vh]' onClick={onVideoClick}>
             <video
               ref={videoRef}
               loop
               onClick={() => {}}
               src={post.video.asset.url}
-              className="h-full cursor-pointer"
+              className='h-full cursor-pointer'
             ></video>
           </div>
-          <div className="absolute top-[45%] left-[45%] cursor-pointer">
+          <div className='absolute top-[45%] left-[45%] cursor-pointer'>
             {!playing && (
               <button>
                 <BsFillPlayFill
                   onClick={onVideoClick}
-                  className="text-white text-6xl lg:text-8xl"
+                  className='text-white text-6xl lg:text-8xl'
                 />
               </button>
             )}
           </div>
         </div>
-        <div className="absolute bottom-5 lg:bottom-10 right-5 lg:right-10 cursor-pointer">
+        <div className='absolute bottom-5 lg:bottom-10 right-5 lg:right-10 cursor-pointer'>
           {isVideoMuted ? (
             <button onClick={() => setIsVideoMuted(false)}>
-              <HiVolumeOff className="text-white text-2xl lg:text-4xl" />
+              <HiVolumeOff className='text-white text-2xl lg:text-4xl' />
             </button>
           ) : (
             <button onClick={() => setIsVideoMuted(true)}>
-              <HiVolumeUp className="text-white text-2xl lg:text-4xl" />
+              <HiVolumeUp className='text-white text-2xl lg:text-4xl' />
             </button>
           )}
         </div>
       </div>
-
-      <div className="relative w-[1000px] md:w-[900px] lg:w-[700px]">
-        <div className="lg:mt-20 mt-10">
-          <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
-            <div className="ml-4 md:w-20 md:h-20 w-10 h-10">
+      <div className='relative w-[1000px] md:w-[900px] lg:w-[700px]'>
+        <div className='lg:mt-20 mt-10'>
+          <div className='flex gap-3 p-2 cursor-pointer font-semibold rounded'>
+            <div className='ml-4 md:w-20 md:h-20 w-10 h-10'>
               <Link href={`/profile/${post.postedBy._id}`}>
                 <>
                   <Image
                     width={62}
                     height={62}
-                    className="rounded-full"
+                    className='rounded-full'
                     src={post.postedBy.image}
-                    alt="profile photo"
-                    layout="responsive"
+                    alt='profile photo'
+                    layout='responsive'
                   />
                 </>
               </Link>
             </div>
-
             <div>
               <Link href={`/profile/${post.postedBy._id}`}>
-                <div className="mt-3 flex flex-col gap-2">
-                  <p className="flex gap-2 items-center md:text-md font-bold text-primary">
+                <div className='mt-3 flex flex-col gap-2'>
+                  <p className='flex gap-2 items-center md:text-md font-bold text-primary'>
                     {post.postedBy.userName}
-                    <GoVerified className="text-blue-400 text-md" />
+                    <GoVerified className='text-blue-400 text-md' />
                   </p>
-                  <p className="capitalize font-medium text-xs text-gray-500 hidden md:block">
+                  <p className='capitalize font-medium text-xs text-gray-500 hidden md:block'>
                     {post.postedBy.userName}
                   </p>
                 </div>
               </Link>
             </div>
           </div>
-          <p className="px-10 text-xl text-gray-600">{post.caption}</p>
-          <div className="mt-10 px-10">
+          <p className='px-10 text-xl text-gray-600'>{post.caption}</p>
+          <div className='mt-10 px-10'>
             {userProfile && (
               <LikeButton
                 likes={post.likes}
-                flex="flex"
+                flex='flex'
                 handleLike={() => handleLike(true)}
                 handleDislike={() => handleLike(false)}
               />
