@@ -20,6 +20,7 @@ export const getServerSideProps = async ({
   query: { topic: string };
 }) => {
   let response = null;
+
   if (topic) {
     response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/discover/${topic}`
